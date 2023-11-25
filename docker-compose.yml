@@ -1,0 +1,8 @@
+services:
+  mysql:
+    image: mysql:8.1
+    environment:
+    - MYSQL_DATABASE=libreria
+    - MYSQL_ROOT_PASSWORD=luis123
+    ports:
+    - 3307:3306

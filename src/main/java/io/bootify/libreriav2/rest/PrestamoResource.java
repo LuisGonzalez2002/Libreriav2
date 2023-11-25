@@ -1,0 +1,65 @@
+package io.bootify.libreriav2.rest;
+
+import io.bootify.libreriav2.model.PrestamoDTO;
+import io.bootify.libreriav2.service.PrestamoService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping(value = "/api/prestamos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PrestamoResource {
+
+    private final PrestamoService prestamoService;
+
+    public PrestamoResource(final PrestamoService prestamoService) {
+        this.prestamoService = prestamoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PrestamoDTO>> getAllPrestamos() {
+        return ResponseEntity.ok(prestamoService.findAll());
+    }
+
+    @GetMapping("/{idPrestamo}")
+    public ResponseEntity<PrestamoDTO> getPrestamo(
+            @PathVariable(name = "idPrestamo") final Long idPrestamo) {
+        return ResponseEntity.ok(prestamoService.get(idPrestamo));
+    }
+
+    @PostMapping
+    @ApiResponse(responseCode = "201")
+    public ResponseEntity<Long> createPrestamo(@RequestBody @Valid final PrestamoDTO prestamoDTO) {
+        final Long createdIdPrestamo = prestamoService.create(prestamoDTO);
+        return new ResponseEntity<>(createdIdPrestamo, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{idPrestamo}")
+    public ResponseEntity<Long> updatePrestamo(
+            @PathVariable(name = "idPrestamo") final Long idPrestamo,
+            @RequestBody @Valid final PrestamoDTO prestamoDTO) {
+        prestamoService.update(idPrestamo, prestamoDTO);
+        return ResponseEntity.ok(idPrestamo);
+    }
+
+    @DeleteMapping("/{idPrestamo}")
+    @ApiResponse(responseCode = "204")
+    public ResponseEntity<Void> deletePrestamo(
+            @PathVariable(name = "idPrestamo") final Long idPrestamo) {
+        prestamoService.delete(idPrestamo);
+        return ResponseEntity.noContent().build();
+    }
+
+}
