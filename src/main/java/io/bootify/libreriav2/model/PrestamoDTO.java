@@ -2,16 +2,23 @@ package io.bootify.libreriav2.model;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter
 public class PrestamoDTO {
 
-    private Long idPrestamo;
+    private Long id;
+
+    @NotNull
+    private LocalDate fechaInicio;
+
+    @NotNull
+    @Size(max = 255)
+    private String fechaDevolucion;
 
     @NotNull
     private EstadoPrestamo estado;
@@ -20,10 +27,4 @@ public class PrestamoDTO {
 
     private Long lector;
 
-    @NotNull
-    private LocalDate fechaInicio;
-
-    @NotNull
-    @Size(max = 255)
-    private String fechaDevolucion;
 }

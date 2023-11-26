@@ -1,8 +1,8 @@
 package io.bootify.libreriav2.controller;
 
-import io.bootify.libreriav2.model.EstadoPrestamo;
 import io.bootify.libreriav2.domain.Lector;
 import io.bootify.libreriav2.domain.Libro;
+import io.bootify.libreriav2.model.EstadoPrestamo;
 import io.bootify.libreriav2.model.PrestamoDTO;
 import io.bootify.libreriav2.repos.LectorRepository;
 import io.bootify.libreriav2.repos.LibroRepository;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 
 @Controller
@@ -51,7 +50,7 @@ public class PrestamoController {
 
     @GetMapping
     public String list(final Model model) {
-        model.addAttribute("prestamos", prestamoService.findAll());
+        model.addAttribute("prestamoes", prestamoService.findAll());
         return "prestamo/list";
     }
 

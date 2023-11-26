@@ -58,7 +58,7 @@ public class PrestamoService {
     }
 
     private PrestamoDTO mapToDTO(final Prestamo prestamo, final PrestamoDTO prestamoDTO) {
-        prestamoDTO.setIdPrestamo(prestamo.getId());
+        prestamoDTO.setId(prestamo.getId());
         prestamoDTO.setFechaInicio(prestamo.getFechaInicio());
         prestamoDTO.setFechaDevolucion(prestamo.getFechaDevolucion());
         prestamoDTO.setEstado(prestamo.getEstado());
