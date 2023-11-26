@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class LectorDTO {
 
-    private Long id;
+    private Long idLector;
 
     @Size(max = 255)
     private String nombre;

@@ -33,9 +33,9 @@ public class LibroResource {
         return ResponseEntity.ok(libroService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<LibroDTO> getLibro(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(libroService.get(id));
+    @GetMapping("/{idLibro}")
+    public ResponseEntity<LibroDTO> getLibro(@PathVariable(name = "idLibro") final Long idLibro) {
+        return ResponseEntity.ok(libroService.get(idLibro));
     }
 
     @PostMapping

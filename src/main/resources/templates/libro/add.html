@@ -14,10 +14,10 @@
             </div>
             <div th:replace="~{fragments/forms::globalErrors('libro')}" />
             <form th:action="${requestUri}" method="post">
-                <div th:replace="~{fragments/forms::inputRow(object='libro', field='idAutor', type='number')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='libro', field='anoPublicacion')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='libro', field='autor')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='libro', field='titulo')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='libro', field='genero')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='libro', field='estado')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='libro', field='stock', type='number')}" />
                 <input type="submit" th:value="#{libro.add.headline}" class="btn btn-primary mt-4" />
             </form>

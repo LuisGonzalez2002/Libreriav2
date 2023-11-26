@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class LibroDTO {
 
-    private Long id;
+    private Long idLibro;
 
     @NotNull
     @Size(max = 255)

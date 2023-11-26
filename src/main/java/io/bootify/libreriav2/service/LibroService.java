@@ -55,7 +55,7 @@ public class LibroService {
     }
 
     private LibroDTO mapToDTO(final Libro libro, final LibroDTO libroDTO) {
-        libroDTO.setId(libro.getId());
+        libroDTO.setIdLibro(libro.getId());
         libroDTO.setTitulo(libro.getTitulo());
         libroDTO.setAutor(libro.getAutor());
         libroDTO.setGenero(libro.getGenero());

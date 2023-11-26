@@ -55,7 +55,7 @@ public class LectorService {
     }
 
     private LectorDTO mapToDTO(final Lector lector, final LectorDTO lectorDTO) {
-        lectorDTO.setId(lector.getId());
+        lectorDTO.setIdLector(lector.getId());
         lectorDTO.setNombre(lector.getNombre());
         lectorDTO.setApellidos(lector.getApellidos());
         return lectorDTO;

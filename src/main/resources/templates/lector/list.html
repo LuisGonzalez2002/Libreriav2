@@ -20,7 +20,6 @@
                             <th scope="col">[[#{lector.idLector.label}]]</th>
                             <th scope="col">[[#{lector.nombre.label}]]</th>
                             <th scope="col">[[#{lector.apellido.label}]]</th>
-                            <th scope="col">[[#{lector.telefono.label}]]</th>
                             <th><!-- --></th>
                         </tr>
                     </thead>
@@ -29,7 +28,6 @@
                             <td>[[${lector.idLector}]]</td>
                             <td>[[${lector.nombre}]]</td>
                             <td>[[${lector.apellido}]]</td>
-                            <td>[[${lector.telefono}]]</td>
                             <td>
                                 <div class="float-end text-nowrap">
                                     <a th:href="@{/lectors/edit/{idLector}(idLector=${lector.idLector})}" class="btn btn-sm btn-secondary">[[#{lector.list.edit}]]</a>

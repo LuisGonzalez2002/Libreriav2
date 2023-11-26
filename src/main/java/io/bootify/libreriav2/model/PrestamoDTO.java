@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 public class PrestamoDTO {
 
-    private Long id;
+    private Long idPrestamo;
 
     @NotNull
     private EstadoPrestamo estado;
