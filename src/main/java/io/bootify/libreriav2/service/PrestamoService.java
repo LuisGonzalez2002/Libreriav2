@@ -62,7 +62,7 @@ public class PrestamoService {
         prestamoDTO.setFechaInicio(prestamo.getFechaInicio());
         prestamoDTO.setFechaDevolucion(prestamo.getFechaDevolucion());
         prestamoDTO.setEstado(prestamo.getEstado());
-        prestamoDTO.setLibro(prestamo.getLibro() == null ? null : prestamo.getLibro().getId());
+        prestamoDTO.setLibro(prestamo.getLibro() == null ? null : prestamo.getLibro().getIdLibro());
         prestamoDTO.setLector(prestamo.getLector() == null ? null : prestamo.getLector().getId());
         return prestamoDTO;
     }

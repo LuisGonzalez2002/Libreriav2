@@ -16,7 +16,7 @@
             <form th:action="${requestUri}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='lector', field='idLector', disabled=true, type='number')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='lector', field='nombre')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='lector', field='apellido')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='lector', field='apellidos')}" />
                 <input type="submit" th:value="#{lector.edit.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>

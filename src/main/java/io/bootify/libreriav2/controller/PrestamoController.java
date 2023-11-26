@@ -43,7 +43,7 @@ public class PrestamoController {
         model.addAttribute("estadoValues", EstadoPrestamo.values());
         model.addAttribute("libroValues", libroRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Libro::getId, Libro::getTitulo)));
+                .collect(CustomCollectors.toSortedMap(Libro::getIdLibro, Libro::getTitulo)));
         model.addAttribute("lectorValues", lectorRepository.findAll(Sort.by("id"))
                 .stream()
                 .collect(CustomCollectors.toSortedMap(Lector::getId, Lector::getNombre)));

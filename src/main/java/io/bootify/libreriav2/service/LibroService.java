@@ -40,7 +40,7 @@ public class LibroService {
     public Long create(final LibroDTO libroDTO) {
         final Libro libro = new Libro();
         mapToEntity(libroDTO, libro);
-        return libroRepository.save(libro).getId();
+        return libroRepository.save(libro).getIdLibro();
     }
 
     public void update(final Long id, final LibroDTO libroDTO) {
@@ -55,7 +55,7 @@ public class LibroService {
     }
 
     private LibroDTO mapToDTO(final Libro libro, final LibroDTO libroDTO) {
-        libroDTO.setIdLibro(libro.getId());
+        libroDTO.setIdLibro(libro.getIdLibro());
         libroDTO.setTitulo(libro.getTitulo());
         libroDTO.setAutor(libro.getAutor());
         libroDTO.setGenero(libro.getGenero());

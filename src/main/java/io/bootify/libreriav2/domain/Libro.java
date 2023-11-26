@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Entity
-@Table(name = "Libros")
+@Table(name = "Libro")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -38,7 +38,7 @@ public class Libro {
             strategy = GenerationType.SEQUENCE,
             generator = "primary_sequence"
     )
-    private Long id;
+    private Long idLibro;
 
     @Column(nullable = false)
     private String titulo;
@@ -52,9 +52,6 @@ public class Libro {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoLibro estado;
-
-    @Column(nullable = false)
-    private Integer stock;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

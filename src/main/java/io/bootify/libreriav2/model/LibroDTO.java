@@ -22,7 +22,6 @@ public class LibroDTO {
     @Size(max = 255)
     private String genero;
 
-
     @NotNull
     private EstadoLibro estado;
 
