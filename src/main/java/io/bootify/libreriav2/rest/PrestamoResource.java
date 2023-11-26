@@ -5,6 +5,7 @@ import io.bootify.libreriav2.service.PrestamoService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
+import javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -36,6 +38,20 @@ public class PrestamoResource {
     @GetMapping("/{id}")
     public ResponseEntity<PrestamoDTO> getPrestamo(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(prestamoService.get(id));
+    }
+
+    @PostMapping("/{idLibro}/solicitar-prestamo/{idLector}")
+    public ResponseEntity<String> solicitarPrestamo(@PathVariable(name = "idLibro") Long idLibro,
+                                                    @PathVariable(name = "idLector") Long idLector) {
+        System.out.println("Solicitando préstamo");
+        try {
+            prestamoService.pedirPrestamo(idLibro, idLector);
+            return ResponseEntity.ok("Préstamo solicitado exitosamente");
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al solicitar préstamo");
+        }
     }
 
     @PostMapping

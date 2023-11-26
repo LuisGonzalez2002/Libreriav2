@@ -2,12 +2,15 @@ package io.bootify.libreriav2.service;
 
 import io.bootify.libreriav2.domain.Libro;
 import io.bootify.libreriav2.domain.Prestamo;
+import io.bootify.libreriav2.model.EstadoLibro;
 import io.bootify.libreriav2.model.LibroDTO;
 import io.bootify.libreriav2.repos.LibroRepository;
 import io.bootify.libreriav2.repos.PrestamoRepository;
 import io.bootify.libreriav2.util.NotFoundException;
 import io.bootify.libreriav2.util.WebUtils;
 import java.util.List;
+
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,8 @@ public class LibroService {
     }
 
     public List<LibroDTO> findAll() {
-        final List<Libro> libroes = libroRepository.findAll(Sort.by("idLibro"));
-        return libroes.stream()
+        final List<Libro> libros = libroRepository.findAll(Sort.by("idLibro"));
+        return libros.stream()
                 .map(libro -> mapToDTO(libro, new LibroDTO()))
                 .toList();
     }
@@ -42,6 +45,7 @@ public class LibroService {
         mapToEntity(libroDTO, libro);
         return libroRepository.save(libro).getIdLibro();
     }
+
 
     public void update(final Long id, final LibroDTO libroDTO) {
         final Libro libro = libroRepository.findById(id)

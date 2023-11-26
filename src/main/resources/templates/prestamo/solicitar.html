@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>[[#{prestamo.solicitar.headline}]]</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex flex-wrap mb-4">
+        <h1 class="flex-grow-1">[[#{prestamo.solicitar.headline}]]</h1>
+        <div>
+            <a th:href="@{/prestamos}" class="btn btn-secondary">[[#{prestamo.solicitar.back}]]</a>
+        </div>
+    </div>
+    <div th:replace="~{fragments/forms::globalErrors('prestamo')}" />
+    <form th:action="@{/prestamos/solicitar}" method="post">
+        <!-- Agrega aquí los campos necesarios para solicitar el préstamo -->
+        <div>
+            <label for="idLibro">Libro:</label>
+            <input type="text" id="idLibro" name="idLibro" required />
+        </div>
+        <div>
+            <label for="idLector">Lector:</label>
+            <input type="text" id="idLector" name="idLector" required />
+        </div>
+        <!-- Otros campos según tus necesidades -->
+
+        <input type="submit" value="Solicitar Préstamo" class="btn btn-primary mt-4" />
+    </form>
+</div>
+</body>
+</html>

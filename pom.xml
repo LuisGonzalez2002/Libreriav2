@@ -9,7 +9,7 @@
         <relativePath /><!-- lookup parent from repository -->
     </parent>
     <groupId>io.bootify</groupId>
-    <artifactId>BibliotecaDavid</artifactId>
+    <artifactId>BibliotecaLuis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>BibliotecaDavid</name>
 
@@ -66,6 +66,11 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.27.0-GA</version> <!-- Utiliza la versión más reciente disponible -->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

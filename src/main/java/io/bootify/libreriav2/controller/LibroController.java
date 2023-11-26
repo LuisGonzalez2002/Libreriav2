@@ -33,7 +33,13 @@ public class LibroController {
 
     @GetMapping
     public String list(final Model model) {
-        model.addAttribute("libroes", libroService.findAll());
+        model.addAttribute("libros", libroService.findAll());
+        return "libro/list";
+    }
+
+    @GetMapping("/{idLibro}")
+    public String get(@PathVariable final Long idLibro, final Model model) {
+        model.addAttribute("libros", libroService.get(idLibro));
         return "libro/list";
     }
 

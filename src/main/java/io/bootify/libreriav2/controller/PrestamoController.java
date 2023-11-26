@@ -11,6 +11,7 @@ import io.bootify.libreriav2.util.CustomCollectors;
 import io.bootify.libreriav2.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 
 @Controller
@@ -50,10 +53,17 @@ public class PrestamoController {
 
     @GetMapping
     public String list(final Model model) {
-        model.addAttribute("prestamoes", prestamoService.findAll());
+        model.addAttribute("prestamos", prestamoService.findAll());
         return "prestamo/list";
     }
 
+    @PostMapping("/solicitar-prestamo/{idLibro}/{idLector}")
+    public ResponseEntity<List<PrestamoDTO>> solicitarPrestamo(
+            @PathVariable(name = "idLibro") Long idLibro,
+            @PathVariable(name = "idLector") Long idLector) {
+        List<PrestamoDTO> prestamos = prestamoService.pedirPrestamo(idLibro, idLector);
+        return ResponseEntity.ok(prestamos);
+    }
     @GetMapping("/add")
     public String add(@ModelAttribute("prestamo") final PrestamoDTO prestamoDTO) {
         return "prestamo/add";

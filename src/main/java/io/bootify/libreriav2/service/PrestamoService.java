@@ -3,14 +3,20 @@ package io.bootify.libreriav2.service;
 import io.bootify.libreriav2.domain.Lector;
 import io.bootify.libreriav2.domain.Libro;
 import io.bootify.libreriav2.domain.Prestamo;
+import io.bootify.libreriav2.model.EstadoLibro;
+import io.bootify.libreriav2.model.EstadoPrestamo;
 import io.bootify.libreriav2.model.PrestamoDTO;
 import io.bootify.libreriav2.repos.LectorRepository;
 import io.bootify.libreriav2.repos.LibroRepository;
 import io.bootify.libreriav2.repos.PrestamoRepository;
 import io.bootify.libreriav2.util.NotFoundException;
 import java.util.List;
+
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -28,8 +34,8 @@ public class PrestamoService {
     }
 
     public List<PrestamoDTO> findAll() {
-        final List<Prestamo> prestamoes = prestamoRepository.findAll(Sort.by("id"));
-        return prestamoes.stream()
+        final List<Prestamo> prestamos = prestamoRepository.findAll(Sort.by("id"));
+        return prestamos.stream()
                 .map(prestamo -> mapToDTO(prestamo, new PrestamoDTO()))
                 .toList();
     }
@@ -53,6 +59,32 @@ public class PrestamoService {
         prestamoRepository.save(prestamo);
     }
 
+    @Transactional
+    public List<PrestamoDTO> pedirPrestamo(Long idLibro, Long idLector) {
+        final Libro libro = libroRepository.findById(idLibro)
+                .orElseThrow(NotFoundException::new);
+
+        if (libro.getEstado().equals(EstadoLibro.PRESTADO)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "El libro ya está prestado");
+        }
+
+        libro.setEstado(EstadoLibro.PRESTADO);
+        libroRepository.save(libro);
+
+        final Lector lector = lectorRepository.findById(idLector)
+                .orElseThrow(NotFoundException::new);
+
+        final Prestamo prestamo = new Prestamo();
+        prestamo.setLibro(libro);
+        prestamo.setLector(lector);
+        prestamo.setEstado(EstadoPrestamo.ACTIVO);
+        prestamoRepository.save(prestamo);
+
+        return prestamoRepository.findAll(Sort.by("id"))
+                .stream()
+                .map(prestamo1 -> mapToDTO(prestamo1, new PrestamoDTO()))
+                .toList();
+    }
     public void delete(final Long id) {
         prestamoRepository.deleteById(id);
     }
