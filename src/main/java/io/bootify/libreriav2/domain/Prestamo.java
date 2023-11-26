@@ -39,7 +39,7 @@ public class Prestamo {
     private EstadoPrestamo estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "libro_id")
+    @JoinColumn(name = "libro_idLibro")
     private Libro libro;
 
     @ManyToOne(fetch = FetchType.LAZY)

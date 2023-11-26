@@ -45,16 +45,16 @@ public class LibroResource {
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> updateLibro(@PathVariable(name = "id") final Long id,
+    @PutMapping("/{idLibro}")
+    public ResponseEntity<Long> updateLibro(@PathVariable(name = "idLibro") final Long id,
                                             @RequestBody @Valid final LibroDTO libroDTO) {
         libroService.update(id, libroDTO);
         return ResponseEntity.ok(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idLibro}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteLibro(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<Void> deleteLibro(@PathVariable(name = "idLibro") final Long id) {
         libroService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -54,30 +54,30 @@ public class LibroController {
     }
 
     @GetMapping("/edit/{idLibro}")
-    public String edit(@PathVariable final Long id, final Model model) {
-        model.addAttribute("libro", libroService.get(id));
+    public String edit(@PathVariable final Long idLibro, final Model model) {
+        model.addAttribute("libro", libroService.get(idLibro));
         return "libro/edit";
     }
 
-    @PostMapping("/edit/{id}")
-    public String edit(@PathVariable final Long id,
+    @PostMapping("/edit/{idLibro}")
+    public String edit(@PathVariable final Long idLibro,
                        @ModelAttribute("libro") @Valid final LibroDTO libroDTO,
                        final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "libro/edit";
         }
-        libroService.update(id, libroDTO);
+        libroService.update(idLibro, libroDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("libro.update.success"));
         return "redirect:/libros";
     }
 
-    @PostMapping("/delete/{id}")
-    public String delete(@PathVariable final Long id, final RedirectAttributes redirectAttributes) {
-        final String referencedWarning = libroService.getReferencedWarning(id);
+    @PostMapping("/delete/{idLibro}")
+    public String delete(@PathVariable final Long idLibro, final RedirectAttributes redirectAttributes) {
+        final String referencedWarning = libroService.getReferencedWarning(idLibro);
         if (referencedWarning != null) {
             redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, referencedWarning);
         } else {
-            libroService.delete(id);
+            libroService.delete(idLibro);
             redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("libro.delete.success"));
         }
         return "redirect:/libros";

@@ -41,7 +41,7 @@ public class PrestamoController {
     @ModelAttribute
     public void prepareContext(final Model model) {
         model.addAttribute("estadoValues", EstadoPrestamo.values());
-        model.addAttribute("libroValues", libroRepository.findAll(Sort.by("id"))
+        model.addAttribute("libroValues", libroRepository.findAll(Sort.by("idLibro"))
                 .stream()
                 .collect(CustomCollectors.toSortedMap(Libro::getIdLibro, Libro::getTitulo)));
         model.addAttribute("lectorValues", lectorRepository.findAll(Sort.by("id"))
@@ -51,7 +51,7 @@ public class PrestamoController {
 
     @GetMapping
     public String list(final Model model) {
-        model.addAttribute("prestamoes", prestamoService.findAll());
+        model.addAttribute("prestamos", prestamoService.findAll());
         return "prestamo/list";
     }
 

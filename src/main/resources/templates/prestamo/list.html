@@ -36,8 +36,8 @@
                         <td>[[${prestamo.lector}]]</td>
                         <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/prestamos/edit/{idPrestamo}(idPrestamo=${prestamo.idPrestamo})}" class="btn btn-sm btn-secondary">[[#{prestamo.list.edit}]]</a>
-                                    <form th:action="@{/prestamos/delete/{idPrestamo}(idPrestamo=${prestamo.idPrestamo})}"
+                                    <a th:href="@{/prestamos/edit/{id}(idPrestamo=${prestamo.id})}" class="btn btn-sm btn-secondary">[[#{prestamo.list.edit}]]</a>
+                                    <form th:action="@{/prestamos/delete/{id}(idPrestamo=${prestamo.id})}"
                                             th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
                                         <button type="submit" class="btn btn-sm btn-secondary">[[#{prestamo.list.delete}]]</button>
                                     </form>
