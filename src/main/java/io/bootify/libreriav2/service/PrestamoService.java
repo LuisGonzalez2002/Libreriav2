@@ -21,21 +21,21 @@ public class PrestamoService {
     private final LectorRepository lectorRepository;
 
     public PrestamoService(final PrestamoRepository prestamoRepository,
-            final LibroRepository libroRepository, final LectorRepository lectorRepository) {
+                           final LibroRepository libroRepository, final LectorRepository lectorRepository) {
         this.prestamoRepository = prestamoRepository;
         this.libroRepository = libroRepository;
         this.lectorRepository = lectorRepository;
     }
 
     public List<PrestamoDTO> findAll() {
-        final List<Prestamo> prestamoes = prestamoRepository.findAll(Sort.by("idPrestamo"));
+        final List<Prestamo> prestamoes = prestamoRepository.findAll(Sort.by("id"));
         return prestamoes.stream()
                 .map(prestamo -> mapToDTO(prestamo, new PrestamoDTO()))
                 .toList();
     }
 
-    public PrestamoDTO get(final Long idPrestamo) {
-        return prestamoRepository.findById(idPrestamo)
+    public PrestamoDTO get(final Long id) {
+        return prestamoRepository.findById(id)
                 .map(prestamo -> mapToDTO(prestamo, new PrestamoDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -43,36 +43,34 @@ public class PrestamoService {
     public Long create(final PrestamoDTO prestamoDTO) {
         final Prestamo prestamo = new Prestamo();
         mapToEntity(prestamoDTO, prestamo);
-        return prestamoRepository.save(prestamo).getIdPrestamo();
+        return prestamoRepository.save(prestamo).getId();
     }
 
-    public void update(final Long idPrestamo, final PrestamoDTO prestamoDTO) {
-        final Prestamo prestamo = prestamoRepository.findById(idPrestamo)
+    public void update(final Long id, final PrestamoDTO prestamoDTO) {
+        final Prestamo prestamo = prestamoRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(prestamoDTO, prestamo);
         prestamoRepository.save(prestamo);
     }
 
-    public void delete(final Long idPrestamo) {
-        prestamoRepository.deleteById(idPrestamo);
+    public void delete(final Long id) {
+        prestamoRepository.deleteById(id);
     }
 
     private PrestamoDTO mapToDTO(final Prestamo prestamo, final PrestamoDTO prestamoDTO) {
-        prestamoDTO.setIdPrestamo(prestamo.getIdPrestamo());
-        prestamoDTO.setIdLibro(prestamo.getIdLibro());
-        prestamoDTO.setIdLector(prestamo.getIdLector());
-        prestamoDTO.setFechaPrestamo(prestamo.getFechaPrestamo());
+        prestamoDTO.setId(prestamo.getId());
+        prestamoDTO.setFechaInicio(prestamo.getFechaInicio());
         prestamoDTO.setFechaDevolucion(prestamo.getFechaDevolucion());
-        prestamoDTO.setLibro(prestamo.getLibro() == null ? null : prestamo.getLibro().getIdLibro());
-        prestamoDTO.setLector(prestamo.getLector() == null ? null : prestamo.getLector().getIdLector());
+        prestamoDTO.setEstado(prestamo.getEstado());
+        prestamoDTO.setLibro(prestamo.getLibro() == null ? null : prestamo.getLibro().getId());
+        prestamoDTO.setLector(prestamo.getLector() == null ? null : prestamo.getLector().getId());
         return prestamoDTO;
     }
 
     private Prestamo mapToEntity(final PrestamoDTO prestamoDTO, final Prestamo prestamo) {
-        prestamo.setIdLibro(prestamoDTO.getIdLibro());
-        prestamo.setIdLector(prestamoDTO.getIdLector());
-        prestamo.setFechaPrestamo(prestamoDTO.getFechaPrestamo());
+        prestamo.setFechaInicio(prestamoDTO.getFechaInicio());
         prestamo.setFechaDevolucion(prestamoDTO.getFechaDevolucion());
+        prestamo.setEstado(prestamoDTO.getEstado());
         final Libro libro = prestamoDTO.getLibro() == null ? null : libroRepository.findById(prestamoDTO.getLibro())
                 .orElseThrow(() -> new NotFoundException("libro not found"));
         prestamo.setLibro(libro);
@@ -80,18 +78,6 @@ public class PrestamoService {
                 .orElseThrow(() -> new NotFoundException("lector not found"));
         prestamo.setLector(lector);
         return prestamo;
-    }
-
-    public boolean idLibroExists(final Long idLibro) {
-        return prestamoRepository.existsByIdLibro(idLibro);
-    }
-
-    public boolean idLectorExists(final Long idLector) {
-        return prestamoRepository.existsByIdLector(idLector);
-    }
-
-    public boolean libroExists(final Long idLibro) {
-        return prestamoRepository.existsByLibroIdLibro(idLibro);
     }
 
 }

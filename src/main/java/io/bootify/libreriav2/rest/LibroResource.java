@@ -33,29 +33,29 @@ public class LibroResource {
         return ResponseEntity.ok(libroService.findAll());
     }
 
-    @GetMapping("/{idLibro}")
-    public ResponseEntity<LibroDTO> getLibro(@PathVariable(name = "idLibro") final Long idLibro) {
-        return ResponseEntity.ok(libroService.get(idLibro));
+    @GetMapping("/{id}")
+    public ResponseEntity<LibroDTO> getLibro(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(libroService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<Long> createLibro(@RequestBody @Valid final LibroDTO libroDTO) {
-        final Long createdIdLibro = libroService.create(libroDTO);
-        return new ResponseEntity<>(createdIdLibro, HttpStatus.CREATED);
+        final Long createdId = libroService.create(libroDTO);
+        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idLibro}")
-    public ResponseEntity<Long> updateLibro(@PathVariable(name = "idLibro") final Long idLibro,
-            @RequestBody @Valid final LibroDTO libroDTO) {
-        libroService.update(idLibro, libroDTO);
-        return ResponseEntity.ok(idLibro);
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> updateLibro(@PathVariable(name = "id") final Long id,
+                                            @RequestBody @Valid final LibroDTO libroDTO) {
+        libroService.update(id, libroDTO);
+        return ResponseEntity.ok(id);
     }
 
-    @DeleteMapping("/{idLibro}")
+    @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteLibro(@PathVariable(name = "idLibro") final Long idLibro) {
-        libroService.delete(idLibro);
+    public ResponseEntity<Void> deleteLibro(@PathVariable(name = "id") final Long id) {
+        libroService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

@@ -33,32 +33,29 @@ public class PrestamoResource {
         return ResponseEntity.ok(prestamoService.findAll());
     }
 
-    @GetMapping("/{idPrestamo}")
-    public ResponseEntity<PrestamoDTO> getPrestamo(
-            @PathVariable(name = "idPrestamo") final Long idPrestamo) {
-        return ResponseEntity.ok(prestamoService.get(idPrestamo));
+    @GetMapping("/{id}")
+    public ResponseEntity<PrestamoDTO> getPrestamo(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(prestamoService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<Long> createPrestamo(@RequestBody @Valid final PrestamoDTO prestamoDTO) {
-        final Long createdIdPrestamo = prestamoService.create(prestamoDTO);
-        return new ResponseEntity<>(createdIdPrestamo, HttpStatus.CREATED);
+        final Long createdId = prestamoService.create(prestamoDTO);
+        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idPrestamo}")
-    public ResponseEntity<Long> updatePrestamo(
-            @PathVariable(name = "idPrestamo") final Long idPrestamo,
-            @RequestBody @Valid final PrestamoDTO prestamoDTO) {
-        prestamoService.update(idPrestamo, prestamoDTO);
-        return ResponseEntity.ok(idPrestamo);
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> updatePrestamo(@PathVariable(name = "id") final Long id,
+                                               @RequestBody @Valid final PrestamoDTO prestamoDTO) {
+        prestamoService.update(id, prestamoDTO);
+        return ResponseEntity.ok(id);
     }
 
-    @DeleteMapping("/{idPrestamo}")
+    @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deletePrestamo(
-            @PathVariable(name = "idPrestamo") final Long idPrestamo) {
-        prestamoService.delete(idPrestamo);
+    public ResponseEntity<Void> deletePrestamo(@PathVariable(name = "id") final Long id) {
+        prestamoService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

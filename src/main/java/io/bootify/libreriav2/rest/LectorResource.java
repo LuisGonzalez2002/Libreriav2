@@ -33,30 +33,29 @@ public class LectorResource {
         return ResponseEntity.ok(lectorService.findAll());
     }
 
-    @GetMapping("/{idLector}")
-    public ResponseEntity<LectorDTO> getLector(
-            @PathVariable(name = "idLector") final Long idLector) {
-        return ResponseEntity.ok(lectorService.get(idLector));
+    @GetMapping("/{id}")
+    public ResponseEntity<LectorDTO> getLector(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(lectorService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<Long> createLector(@RequestBody @Valid final LectorDTO lectorDTO) {
-        final Long createdIdLector = lectorService.create(lectorDTO);
-        return new ResponseEntity<>(createdIdLector, HttpStatus.CREATED);
+        final Long createdId = lectorService.create(lectorDTO);
+        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idLector}")
-    public ResponseEntity<Long> updateLector(@PathVariable(name = "idLector") final Long idLector,
-            @RequestBody @Valid final LectorDTO lectorDTO) {
-        lectorService.update(idLector, lectorDTO);
-        return ResponseEntity.ok(idLector);
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> updateLector(@PathVariable(name = "id") final Long id,
+                                             @RequestBody @Valid final LectorDTO lectorDTO) {
+        lectorService.update(id, lectorDTO);
+        return ResponseEntity.ok(id);
     }
 
-    @DeleteMapping("/{idLector}")
+    @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteLector(@PathVariable(name = "idLector") final Long idLector) {
-        lectorService.delete(idLector);
+    public ResponseEntity<Void> deleteLector(@PathVariable(name = "id") final Long id) {
+        lectorService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

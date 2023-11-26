@@ -53,6 +53,9 @@ public class Libro {
     @Enumerated(EnumType.STRING)
     private EstadoLibro estado;
 
+    @Column(nullable = false)
+    private Integer stock;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;

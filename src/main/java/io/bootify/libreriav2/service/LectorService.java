@@ -19,20 +19,20 @@ public class LectorService {
     private final PrestamoRepository prestamoRepository;
 
     public LectorService(final LectorRepository lectorRepository,
-            final PrestamoRepository prestamoRepository) {
+                         final PrestamoRepository prestamoRepository) {
         this.lectorRepository = lectorRepository;
         this.prestamoRepository = prestamoRepository;
     }
 
     public List<LectorDTO> findAll() {
-        final List<Lector> lectors = lectorRepository.findAll(Sort.by("idLector"));
+        final List<Lector> lectors = lectorRepository.findAll(Sort.by("id"));
         return lectors.stream()
                 .map(lector -> mapToDTO(lector, new LectorDTO()))
                 .toList();
     }
 
-    public LectorDTO get(final Long idLector) {
-        return lectorRepository.findById(idLector)
+    public LectorDTO get(final Long id) {
+        return lectorRepository.findById(id)
                 .map(lector -> mapToDTO(lector, new LectorDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -40,41 +40,39 @@ public class LectorService {
     public Long create(final LectorDTO lectorDTO) {
         final Lector lector = new Lector();
         mapToEntity(lectorDTO, lector);
-        return lectorRepository.save(lector).getIdLector();
+        return lectorRepository.save(lector).getId();
     }
 
-    public void update(final Long idLector, final LectorDTO lectorDTO) {
-        final Lector lector = lectorRepository.findById(idLector)
+    public void update(final Long id, final LectorDTO lectorDTO) {
+        final Lector lector = lectorRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(lectorDTO, lector);
         lectorRepository.save(lector);
     }
 
-    public void delete(final Long idLector) {
-        lectorRepository.deleteById(idLector);
+    public void delete(final Long id) {
+        lectorRepository.deleteById(id);
     }
 
     private LectorDTO mapToDTO(final Lector lector, final LectorDTO lectorDTO) {
-        lectorDTO.setIdLector(lector.getIdLector());
+        lectorDTO.setId(lector.getId());
         lectorDTO.setNombre(lector.getNombre());
-        lectorDTO.setApellido(lector.getApellido());
-        lectorDTO.setTelefono(lector.getTelefono());
+        lectorDTO.setApellidos(lector.getApellidos());
         return lectorDTO;
     }
 
     private Lector mapToEntity(final LectorDTO lectorDTO, final Lector lector) {
         lector.setNombre(lectorDTO.getNombre());
-        lector.setApellido(lectorDTO.getApellido());
-        lector.setTelefono(lectorDTO.getTelefono());
+        lector.setApellidos(lectorDTO.getApellidos());
         return lector;
     }
 
-    public String getReferencedWarning(final Long idLector) {
-        final Lector lector = lectorRepository.findById(idLector)
+    public String getReferencedWarning(final Long id) {
+        final Lector lector = lectorRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         final Prestamo lectorPrestamo = prestamoRepository.findFirstByLector(lector);
         if (lectorPrestamo != null) {
-            return WebUtils.getMessage("lector.prestamo.lector.referenced", lectorPrestamo.getIdPrestamo());
+            return WebUtils.getMessage("lector.prestamo.lector.referenced", lectorPrestamo.getId());
         }
         return null;
     }

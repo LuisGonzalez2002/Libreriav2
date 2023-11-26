@@ -1,5 +1,6 @@
 package io.bootify.libreriav2.controller;
 
+import io.bootify.libreriav2.model.EstadoLibro;
 import io.bootify.libreriav2.model.LibroDTO;
 import io.bootify.libreriav2.service.LibroService;
 import io.bootify.libreriav2.util.WebUtils;
@@ -25,6 +26,11 @@ public class LibroController {
         this.libroService = libroService;
     }
 
+    @ModelAttribute
+    public void prepareContext(final Model model) {
+        model.addAttribute("estadoValues", EstadoLibro.values());
+    }
+
     @GetMapping
     public String list(final Model model) {
         model.addAttribute("libroes", libroService.findAll());
@@ -38,10 +44,7 @@ public class LibroController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("libro") @Valid final LibroDTO libroDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        if (!bindingResult.hasFieldErrors("idAutor") && libroDTO.getIdAutor() != null && libroService.idAutorExists(libroDTO.getIdAutor())) {
-            bindingResult.rejectValue("idAutor", "Exists.libro.idAutor");
-        }
+                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "libro/add";
         }
@@ -50,41 +53,33 @@ public class LibroController {
         return "redirect:/libros";
     }
 
-    @GetMapping("/edit/{idLibro}")
-    public String edit(@PathVariable final Long idLibro, final Model model) {
-        model.addAttribute("libro", libroService.get(idLibro));
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable final Long id, final Model model) {
+        model.addAttribute("libro", libroService.get(id));
         return "libro/edit";
     }
 
-    @PostMapping("/edit/{idLibro}")
-    public String edit(@PathVariable final Long idLibro,
-            @ModelAttribute("libro") @Valid final LibroDTO libroDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        final LibroDTO currentLibroDTO = libroService.get(idLibro);
-        if (!bindingResult.hasFieldErrors("idAutor") && libroDTO.getIdAutor() != null &&
-                !libroDTO.getIdAutor().equals(currentLibroDTO.getIdAutor()) &&
-                libroService.idAutorExists(libroDTO.getIdAutor())) {
-            bindingResult.rejectValue("idAutor", "Exists.libro.idAutor");
-        }
+    @PostMapping("/edit/{id}")
+    public String edit(@PathVariable final Long id,
+                       @ModelAttribute("libro") @Valid final LibroDTO libroDTO,
+                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "libro/edit";
         }
-        libroService.update(idLibro, libroDTO);
+        libroService.update(id, libroDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("libro.update.success"));
         return "redirect:/libros";
     }
 
-    @PostMapping("/delete/{idLibro}")
-    public String delete(@PathVariable final Long idLibro,
-            final RedirectAttributes redirectAttributes) {
-        final String referencedWarning = libroService.getReferencedWarning(idLibro);
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable final Long id, final RedirectAttributes redirectAttributes) {
+        final String referencedWarning = libroService.getReferencedWarning(id);
         if (referencedWarning != null) {
             redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, referencedWarning);
         } else {
-            libroService.delete(idLibro);
+            libroService.delete(id);
             redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("libro.delete.success"));
         }
         return "redirect:/libros";
     }
-
 }

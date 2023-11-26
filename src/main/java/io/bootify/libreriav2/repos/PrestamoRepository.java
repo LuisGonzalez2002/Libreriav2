@@ -12,10 +12,4 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long> {
 
     Prestamo findFirstByLector(Lector lector);
 
-    boolean existsByIdLibro(Long idLibro);
-
-    boolean existsByIdLector(Long idLector);
-
-    boolean existsByLibroIdLibro(Long idLibro);
-
 }

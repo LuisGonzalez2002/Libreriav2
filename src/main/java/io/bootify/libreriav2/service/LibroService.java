@@ -19,20 +19,20 @@ public class LibroService {
     private final PrestamoRepository prestamoRepository;
 
     public LibroService(final LibroRepository libroRepository,
-            final PrestamoRepository prestamoRepository) {
+                        final PrestamoRepository prestamoRepository) {
         this.libroRepository = libroRepository;
         this.prestamoRepository = prestamoRepository;
     }
 
     public List<LibroDTO> findAll() {
-        final List<Libro> libroes = libroRepository.findAll(Sort.by("idLibro"));
+        final List<Libro> libroes = libroRepository.findAll(Sort.by("id"));
         return libroes.stream()
                 .map(libro -> mapToDTO(libro, new LibroDTO()))
                 .toList();
     }
 
-    public LibroDTO get(final Long idLibro) {
-        return libroRepository.findById(idLibro)
+    public LibroDTO get(final Long id) {
+        return libroRepository.findById(id)
                 .map(libro -> mapToDTO(libro, new LibroDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -40,47 +40,43 @@ public class LibroService {
     public Long create(final LibroDTO libroDTO) {
         final Libro libro = new Libro();
         mapToEntity(libroDTO, libro);
-        return libroRepository.save(libro).getIdLibro();
+        return libroRepository.save(libro).getId();
     }
 
-    public void update(final Long idLibro, final LibroDTO libroDTO) {
-        final Libro libro = libroRepository.findById(idLibro)
+    public void update(final Long id, final LibroDTO libroDTO) {
+        final Libro libro = libroRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(libroDTO, libro);
         libroRepository.save(libro);
     }
 
-    public void delete(final Long idLibro) {
-        libroRepository.deleteById(idLibro);
+    public void delete(final Long id) {
+        libroRepository.deleteById(id);
     }
 
     private LibroDTO mapToDTO(final Libro libro, final LibroDTO libroDTO) {
-        libroDTO.setIdLibro(libro.getIdLibro());
-        libroDTO.setAnoPublicacion(libro.getAnoPublicacion());
+        libroDTO.setId(libro.getId());
         libroDTO.setTitulo(libro.getTitulo());
+        libroDTO.setAutor(libro.getAutor());
         libroDTO.setGenero(libro.getGenero());
-        libroDTO.setStock(libro.getStock());
+        libroDTO.setEstado(libro.getEstado());
         return libroDTO;
     }
 
     private Libro mapToEntity(final LibroDTO libroDTO, final Libro libro) {
-        libro.setAnoPublicacion(libroDTO.getAnoPublicacion());
         libro.setTitulo(libroDTO.getTitulo());
+        libro.setAutor(libroDTO.getAutor());
         libro.setGenero(libroDTO.getGenero());
-        libro.setStock(libroDTO.getStock());
+        libro.setEstado(libroDTO.getEstado());
         return libro;
     }
 
-    public boolean idAutorExists(final Long idAutor) {
-        return libroRepository.existsByIdAutor(idAutor);
-    }
-
-    public String getReferencedWarning(final Long idLibro) {
-        final Libro libro = libroRepository.findById(idLibro)
+    public String getReferencedWarning(final Long id) {
+        final Libro libro = libroRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         final Prestamo libroPrestamo = prestamoRepository.findFirstByLibro(libro);
         if (libroPrestamo != null) {
-            return WebUtils.getMessage("libro.prestamo.libro.referenced", libroPrestamo.getIdPrestamo());
+            return WebUtils.getMessage("libro.prestamo.libro.referenced", libroPrestamo.getId());
         }
         return null;
     }

@@ -1,5 +1,6 @@
 package io.bootify.libreriav2.controller;
 
+import io.bootify.libreriav2.model.EstadoPrestamo;
 import io.bootify.libreriav2.domain.Lector;
 import io.bootify.libreriav2.domain.Libro;
 import io.bootify.libreriav2.model.PrestamoDTO;
