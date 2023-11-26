@@ -56,7 +56,6 @@ public class LibroService {
 
     private LibroDTO mapToDTO(final Libro libro, final LibroDTO libroDTO) {
         libroDTO.setIdLibro(libro.getIdLibro());
-        libroDTO.setIdAutor(libro.getIdAutor());
         libroDTO.setAnoPublicacion(libro.getAnoPublicacion());
         libroDTO.setTitulo(libro.getTitulo());
         libroDTO.setGenero(libro.getGenero());
@@ -65,7 +64,6 @@ public class LibroService {
     }
 
     private Libro mapToEntity(final LibroDTO libroDTO, final Libro libro) {
-        libro.setIdAutor(libroDTO.getIdAutor());
         libro.setAnoPublicacion(libroDTO.getAnoPublicacion());
         libro.setTitulo(libroDTO.getTitulo());
         libro.setGenero(libroDTO.getGenero());

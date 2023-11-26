@@ -1,22 +1,28 @@
 package io.bootify.libreriav2.domain;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.SequenceGenerator;
 import java.time.OffsetDateTime;
-import java.util.Set;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Table(name = "Lectors")
+
+@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class Lector {
+public abstract class Bibliotecario {
 
     @Id
     @Column(nullable = false, updatable = false)
@@ -36,7 +42,14 @@ public class Lector {
     private String nombre;
 
     @Column(nullable = false)
-    private String apellidos;
+    private String apellido;
+
+    @Column
+    private String zona;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bibliotecario_id")
+    private Lector bibliotecario;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

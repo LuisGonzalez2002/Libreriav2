@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/libreria?serverTimezone=UTC}
-    username: ${JDBC_DATABASE_USERNAME:root}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:3306/libreria?serverTimezone=UTC}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:luis123}
     dbcp2:
       max-wait-millis: 30000

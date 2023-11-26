@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+
 @Controller
 @RequestMapping("/prestamos")
 public class PrestamoController {
@@ -30,7 +31,7 @@ public class PrestamoController {
     private final LectorRepository lectorRepository;
 
     public PrestamoController(final PrestamoService prestamoService,
-            final LibroRepository libroRepository, final LectorRepository lectorRepository) {
+                              final LibroRepository libroRepository, final LectorRepository lectorRepository) {
         this.prestamoService = prestamoService;
         this.libroRepository = libroRepository;
         this.lectorRepository = lectorRepository;
@@ -38,12 +39,13 @@ public class PrestamoController {
 
     @ModelAttribute
     public void prepareContext(final Model model) {
-        model.addAttribute("libroValues", libroRepository.findAll(Sort.by("idLibro"))
+        model.addAttribute("estadoValues", EstadoPrestamo.values());
+        model.addAttribute("libroValues", libroRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Libro::getIdLibro, Libro::getAnoPublicacion)));
-        model.addAttribute("lectorValues", lectorRepository.findAll(Sort.by("idLector"))
+                .collect(CustomCollectors.toSortedMap(Libro::getId, Libro::getTitulo)));
+        model.addAttribute("lectorValues", lectorRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Lector::getIdLector, Lector::getNombre)));
+                .collect(CustomCollectors.toSortedMap(Lector::getId, Lector::getNombre)));
     }
 
     @GetMapping
@@ -59,16 +61,7 @@ public class PrestamoController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("prestamo") @Valid final PrestamoDTO prestamoDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        if (!bindingResult.hasFieldErrors("idLibro") && prestamoService.idLibroExists(prestamoDTO.getIdLibro())) {
-            bindingResult.rejectValue("idLibro", "Exists.prestamo.idLibro");
-        }
-        if (!bindingResult.hasFieldErrors("idLector") && prestamoService.idLectorExists(prestamoDTO.getIdLector())) {
-            bindingResult.rejectValue("idLector", "Exists.prestamo.idLector");
-        }
-        if (!bindingResult.hasFieldErrors("libro") && prestamoDTO.getLibro() != null && prestamoService.libroExists(prestamoDTO.getLibro())) {
-            bindingResult.rejectValue("libro", "Exists.prestamo.libro");
-        }
+                      final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "prestamo/add";
         }
@@ -77,44 +70,27 @@ public class PrestamoController {
         return "redirect:/prestamos";
     }
 
-    @GetMapping("/edit/{idPrestamo}")
-    public String edit(@PathVariable final Long idPrestamo, final Model model) {
-        model.addAttribute("prestamo", prestamoService.get(idPrestamo));
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable final Long id, final Model model) {
+        model.addAttribute("prestamo", prestamoService.get(id));
         return "prestamo/edit";
     }
 
-    @PostMapping("/edit/{idPrestamo}")
-    public String edit(@PathVariable final Long idPrestamo,
-            @ModelAttribute("prestamo") @Valid final PrestamoDTO prestamoDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        final PrestamoDTO currentPrestamoDTO = prestamoService.get(idPrestamo);
-        if (!bindingResult.hasFieldErrors("idLibro") &&
-                !prestamoDTO.getIdLibro().equals(currentPrestamoDTO.getIdLibro()) &&
-                prestamoService.idLibroExists(prestamoDTO.getIdLibro())) {
-            bindingResult.rejectValue("idLibro", "Exists.prestamo.idLibro");
-        }
-        if (!bindingResult.hasFieldErrors("idLector") &&
-                !prestamoDTO.getIdLector().equals(currentPrestamoDTO.getIdLector()) &&
-                prestamoService.idLectorExists(prestamoDTO.getIdLector())) {
-            bindingResult.rejectValue("idLector", "Exists.prestamo.idLector");
-        }
-        if (!bindingResult.hasFieldErrors("libro") && prestamoDTO.getLibro() != null &&
-                !prestamoDTO.getLibro().equals(currentPrestamoDTO.getLibro()) &&
-                prestamoService.libroExists(prestamoDTO.getLibro())) {
-            bindingResult.rejectValue("libro", "Exists.prestamo.libro");
-        }
+    @PostMapping("/edit/{id}")
+    public String edit(@PathVariable final Long id,
+                       @ModelAttribute("prestamo") @Valid final PrestamoDTO prestamoDTO,
+                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "prestamo/edit";
         }
-        prestamoService.update(idPrestamo, prestamoDTO);
+        prestamoService.update(id, prestamoDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("prestamo.update.success"));
         return "redirect:/prestamos";
     }
 
-    @PostMapping("/delete/{idPrestamo}")
-    public String delete(@PathVariable final Long idPrestamo,
-            final RedirectAttributes redirectAttributes) {
-        prestamoService.delete(idPrestamo);
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable final Long id, final RedirectAttributes redirectAttributes) {
+        prestamoService.delete(id);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("prestamo.delete.success"));
         return "redirect:/prestamos";
     }
