@@ -49,6 +49,7 @@ public class Libro {
     @Column(nullable = false)
     private String genero;
 
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EstadoLibro estado;

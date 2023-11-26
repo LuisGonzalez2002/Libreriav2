@@ -17,7 +17,7 @@
         <table class="table table-striped table-hover align-middle">
             <thead>
             <tr>
-                <th scope="col">[[#{libro.id.label}]]</th>
+                <th scope="col">[[#{libro.idLibro.label}]]</th>
                 <th scope="col">[[#{libro.titulo.label}]]</th>
                 <th scope="col">[[#{libro.autor.label}]]</th>
                 <th scope="col">[[#{libro.genero.label}]]</th>
@@ -27,16 +27,15 @@
             </thead>
             <tbody>
             <tr th:each="libro : ${libroes}">
-                <td>[[${libro.id}]]</td>
+                <td>[[${libro.idLibro}]]</td>
                 <td>[[${libro.titulo}]]</td>
                 <td>[[${libro.autor}]]</td>
                 <td>[[${libro.genero}]]</td>
                 <td>[[${libro.estado}]]</td>
-                <td>[[${libro.stock}]]</td>
                 <td>
                     <div class="float-end text-nowrap">
-                        <a th:href="@{/libros/edit/{id}(id=${libro.id})}" class="btn btn-sm btn-secondary">[[#{libro.list.edit}]]</a>
-                        <form th:action="@{/libros/delete/{id}(id=${libro.id})}"
+                        <a th:href="@{/libros/edit/{idLibro}(idLibro=${libro.idLibro})}" class="btn btn-sm btn-secondary">[[#{libro.list.edit}]]</a>
+                        <form th:action="@{/libros/delete/{idLibro}(idLibro=${libro.idLibro})}"
                               th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-secondary">[[#{libro.list.delete}]]</button>
                         </form>

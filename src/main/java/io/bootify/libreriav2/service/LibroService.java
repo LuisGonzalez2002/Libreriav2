@@ -25,7 +25,7 @@ public class LibroService {
     }
 
     public List<LibroDTO> findAll() {
-        final List<Libro> libroes = libroRepository.findAll(Sort.by("id"));
+        final List<Libro> libroes = libroRepository.findAll(Sort.by("idLibro"));
         return libroes.stream()
                 .map(libro -> mapToDTO(libro, new LibroDTO()))
                 .toList();

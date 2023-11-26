@@ -14,7 +14,7 @@
     </div>
     <div th:replace="~{fragments/forms::globalErrors('libro')}" />
     <form th:action="${requestUri}" method="post">
-        <div th:replace="~{fragments/forms::inputRow(object='libro', field='id', disabled=true, type='number')}" />
+        <div th:replace="~{fragments/forms::inputRow(object='libro', field='idLibro', disabled=true, type='number')}" />
         <div th:replace="~{fragments/forms::inputRow(object='libro', field='titulo')}" />
         <div th:replace="~{fragments/forms::inputRow(object='libro', field='autor')}" />
         <div th:replace="~{fragments/forms::inputRow(object='libro', field='genero')}" />
