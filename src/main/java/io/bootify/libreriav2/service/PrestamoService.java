@@ -59,31 +59,7 @@ public class PrestamoService {
         prestamoRepository.save(prestamo);
     }
 
-    public List<PrestamoDTO> pedirPrestamo(Long idLibro, Long idLector) {
-        final Libro libro = libroRepository.findById(idLibro)
-                .orElseThrow(NotFoundException::new);
 
-        if (libro.getEstado().equals(EstadoLibro.PRESTADO)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "El libro ya está prestado");
-        }
-
-        libro.setEstado(EstadoLibro.PRESTADO);
-        libroRepository.save(libro);
-
-        final Lector lector = lectorRepository.findById(idLector)
-                .orElseThrow(NotFoundException::new);
-
-        final Prestamo prestamo = new Prestamo();
-        prestamo.setLibro(libro);
-        prestamo.setLector(lector);
-        prestamo.setEstado(EstadoPrestamo.ACTIVO);
-        prestamoRepository.save(prestamo);
-
-        return prestamoRepository.findAll(Sort.by("id"))
-                .stream()
-                .map(prestamo1 -> mapToDTO(prestamo1, new PrestamoDTO()))
-                .toList();
-    }
     public void delete(final Long id) {
         prestamoRepository.deleteById(id);
     }

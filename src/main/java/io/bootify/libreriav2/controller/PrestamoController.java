@@ -56,13 +56,7 @@ public class PrestamoController {
         return "prestamo/list";
     }
 
-    @PostMapping("/solicitar-prestamo/{idLibro}/{idLector}")
-    public String solicitarPrestamo(
-            @PathVariable(name = "idLibro") Long idLibro,
-            @PathVariable(name = "idLector") Long idLector) {
-        List<PrestamoDTO> prestamos = prestamoService.pedirPrestamo(idLibro, idLector);
-        return "prestamo/pedir-prestamo";
-    }
+
     @GetMapping("/add")
     public String add(@ModelAttribute("prestamo") final PrestamoDTO prestamoDTO) {
         return "prestamo/add";

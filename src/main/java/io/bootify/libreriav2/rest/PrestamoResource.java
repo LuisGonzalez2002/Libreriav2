@@ -40,19 +40,6 @@ public class PrestamoResource {
         return ResponseEntity.ok(prestamoService.get(id));
     }
 
-    @PostMapping("/{idLibro}/solicitar-prestamo/{idLector}")
-    public ResponseEntity<String> solicitarPrestamo(@PathVariable(name = "idLibro") Long idLibro,
-                                                    @PathVariable(name = "idLector") Long idLector) {
-        System.out.println("Solicitando préstamo");
-        try {
-            prestamoService.pedirPrestamo(idLibro, idLector);
-            return ResponseEntity.ok("Préstamo solicitado exitosamente");
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al solicitar préstamo");
-        }
-    }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
