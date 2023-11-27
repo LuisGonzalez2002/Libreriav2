@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/api/lectors", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/lector", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LectorResource {
 
     private final LectorService lectorService;
