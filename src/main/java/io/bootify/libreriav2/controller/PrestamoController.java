@@ -11,7 +11,6 @@ import io.bootify.libreriav2.util.CustomCollectors;
 import io.bootify.libreriav2.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -58,11 +57,11 @@ public class PrestamoController {
     }
 
     @PostMapping("/solicitar-prestamo/{idLibro}/{idLector}")
-    public ResponseEntity<List<PrestamoDTO>> solicitarPrestamo(
+    public String solicitarPrestamo(
             @PathVariable(name = "idLibro") Long idLibro,
             @PathVariable(name = "idLector") Long idLector) {
         List<PrestamoDTO> prestamos = prestamoService.pedirPrestamo(idLibro, idLector);
-        return ResponseEntity.ok(prestamos);
+        return "prestamo/pedir-prestamo";
     }
     @GetMapping("/add")
     public String add(@ModelAttribute("prestamo") final PrestamoDTO prestamoDTO) {

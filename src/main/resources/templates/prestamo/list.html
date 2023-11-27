@@ -41,6 +41,17 @@
                               th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-secondary">[[#{prestamo.list.delete}]]</button>
                         </form>
+                        <a th:href="@{/prestamos/solicitar-prestamo/{idLibro}/{idLector}(idLibro=${prestamo.libro}, idLector=${prestamo.lector})}" class="btn btn-sm btn-primary">[[#{prestamo.list.solicitar}]]</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="float-end text-nowrap">
+                        <!-- Agrega el enlace y el formulario para solicitar préstamo aquí -->
+                        <a th:href="@{/prestamos/solicitar/{idLibro}/{idLector}(idLibro=${prestamo.libro}, idLector=${prestamo.lector})}" class="btn btn-sm btn-primary">[[#{prestamo.solicitarPrestamo}]]</a>
+                        <form th:action="@{/prestamos/solicitar/{id}(id=${prestamo.id})}"
+                              th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-secondary">[[#{prestamo.headline}]]</button>
+                        </form>
                     </div>
                 </td>
             </tr>

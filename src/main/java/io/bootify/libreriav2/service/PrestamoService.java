@@ -59,7 +59,6 @@ public class PrestamoService {
         prestamoRepository.save(prestamo);
     }
 
-    @Transactional
     public List<PrestamoDTO> pedirPrestamo(Long idLibro, Long idLector) {
         final Libro libro = libroRepository.findById(idLibro)
                 .orElseThrow(NotFoundException::new);
